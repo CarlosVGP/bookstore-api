@@ -9,7 +9,10 @@ const livroSchema = new mongoose.Schema({
   autor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "autores",
-    required: [true, "É obrigatorio fornecer o nome do ao cadastrar um livro"],
+    required: [
+      true,
+      "É obrigatorio fornecer o nome do(a) autor(a) ao cadastrar um livro",
+    ],
   },
   editora: {
     type: String,
@@ -19,13 +22,11 @@ const livroSchema = new mongoose.Schema({
     ],
     enum: {
       values: [
-        [
-          "Companhia das Letras",
-          "Grupo Editorial Record",
-          "Rocco",
-          "Intrínseca",
-          "Editora Sextante",
-        ],
+        "Companhia das Letras",
+        "Grupo Editorial Record",
+        "Rocco",
+        "Intrinseca",
+        "Editora Sextante",
       ],
       message:
         "Editora fornecida '{VALUE}' não está entre as concideradas validas",
@@ -33,10 +34,16 @@ const livroSchema = new mongoose.Schema({
   },
   numeroPaginas: {
     type: Number,
+    required: [
+      true,
+      "É necessario fornecer a quantidade de páginas que o livro possui",
+    ],
     validate: {
       validator: (value) => {
         return value >= 15 && value <= 10000;
       },
+      message:
+        "O numero de páginas deve estar entre 15 e 10.000 Valor fornecido '{VALUE}'",
     },
   },
 });
