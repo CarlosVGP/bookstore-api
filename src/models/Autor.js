@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const autorSchema = new mongoose.Schema(
   {
-    __id: { type: mongoose.Types.ObjectId },
+    id: { type: mongoose.Types.ObjectId },
     nome: {
       type: String,
       required: [
@@ -23,4 +23,4 @@ const autorSchema = new mongoose.Schema(
 
 const autores = mongoose.model("autores", autorSchema);
 
-export default { autores, autorSchema };
+export default autores;
