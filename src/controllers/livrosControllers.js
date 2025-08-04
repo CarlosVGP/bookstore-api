@@ -3,7 +3,14 @@ import { autores, livros } from "../models/index.js";
 class LivrosControllers {
   static listarLivros = async (req, res) => {
     try {
-      const buscaLivros = await livros.find({});
+      const { limite = 5, pagina = 1 } = req.query;
+
+      const buscaLivros = await livros
+        .find({})
+        .skip((pagina - 1) * limite)
+        .limit(limite)
+        .populate("autor")
+        .exec();
       res.status(200).send(buscaLivros);
     } catch (error) {
       console.log("Erro ao tentar listar os livros", error);
@@ -12,10 +19,18 @@ class LivrosControllers {
 
   static listarLivrosPorFiltro = async (req, res) => {
     try {
+      const { limite = 5, pagina = 1 } = req.query;
       const busca = await processaBusca(req.query);
       if (busca !== null) {
-        const livroResultado = await livros.find(busca).populate("autor");
-        res.status(200).send(livroResultado);
+        const livrosResultado = await livros
+          .find(busca)
+          .populate("autor")
+          .skip((pagina - 1) * limite)
+          .limit(limite)
+          .exec();
+        res.status(200).send(livrosResultado);
+      } else {
+        res.status(200).send([]);
       }
     } catch (error) {
       res.status(200).json({ message: `Eror, ${error}` });
