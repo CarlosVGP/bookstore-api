@@ -13,6 +13,22 @@ class LivrosControllers {
   // static listarLivrosPorId = async (req, res) => {};
   // static listarLivrosPorEditora = async (req, res) => {};
   // static listarLivrosPorAutor = async (req, res) => {};
+  static listarLivrosPorFiltro = async (req, res) => {
+    try {
+      const { editora, titulo } = req.query;
+
+      const busca = {};
+
+      if (editora) busca.editora = editora;
+      if (titulo) busca.titulo = titulo;
+
+      const livroResultado = await livros.find(busca);
+
+      res.status(200).send(livroResultado);
+    } catch (error) {
+      res.status(200).json({ message: `Eror, ${error}` });
+    }
+  };
 
   static cadastrarLivro = async (req, res) => {
     const novoLivro = new livros(req.body);
