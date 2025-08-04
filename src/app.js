@@ -1,6 +1,8 @@
 import express from "express";
 import db from "./config/dbConnect.js";
 import routes from "./routes/index.js";
+import tratadorDeErros from "./middlewares/tratadorDeErros.js";
+import tratador404 from "./middlewares/tratador404.js";
 
 const app = express();
 
@@ -12,12 +14,11 @@ db.once("open", () =>
   console.log("Conexão com banco de dados realizada com sucesso!")
 );
 
+//Rotas da aplicação
 routes(app);
 
-//Middlewares
-// app.use((error, req, res, next) => {
-//   res.status(200).send("Middleware acessado");
-//   //manipulaErros();
-// });
+//Middlewares para tratamento de erros da API
+app.use(tratador404);
+app.use(tratadorDeErros);
 
 export default app;
