@@ -4,8 +4,9 @@ import LivrosControllers from "../controllers/livrosControllers.js";
 const router = express.Router();
 
 router
-  .get("/livros", LivrosControllers.listarLivros)
   .post("/livros", LivrosControllers.cadastrarLivro)
+  .get("/livros", LivrosControllers.listarLivros)
+  .get("/livros/:id", LivrosControllers.listarLivrosPorId)
   .put("/livros/:id", LivrosControllers.atualizarLivro)
   .delete("/livros/:id", LivrosControllers.deletarLivro);
 
