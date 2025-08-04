@@ -13,6 +13,7 @@ db.once("open", () =>
 );
 
 routes(app);
+
 //Middlewares
 // app.use((error, req, res, next) => {
 //   res.status(200).send("Middleware acessado");
