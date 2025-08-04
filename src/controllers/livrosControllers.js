@@ -1,16 +1,16 @@
 import { autores, livros } from "../models/index.js";
 
 class LivrosControllers {
-  static listarLivros = async (req, res) => {
+  static listarLivros = async (req, res, next) => {
     try {
       const buscaLivros = await livros.find({});
       res.status(200).send(buscaLivros);
     } catch (error) {
-      console.log("Erro ao tentar listar os livros", error);
+      next(error);
     }
   };
 
-  static listarLivrosPorFiltro = async (req, res) => {
+  static listarLivrosPorFiltro = async (req, res, next) => {
     try {
       const busca = await processaBusca(req.query);
       if (busca !== null) {
@@ -18,19 +18,23 @@ class LivrosControllers {
         res.status(200).send(livroResultado);
       }
     } catch (error) {
-      res.status(200).json({ message: `Eror, ${error}` });
+      next(error);
     }
   };
 
-  static cadastrarLivro = async (req, res) => {
-    const novoLivro = new livros(req.body);
-    const resultado = await novoLivro.save(novoLivro);
-    res
-      .status(200)
-      .json({ message: "Livro cadastrado com sucesso", livro: resultado });
+  static cadastrarLivro = async (req, res, next) => {
+    try {
+      const novoLivro = new livros(req.body);
+      const resultado = await novoLivro.save(novoLivro);
+      res
+        .status(200)
+        .json({ message: "Livro cadastrado com sucesso", livro: resultado });
+    } catch (error) {
+      next(error);
+    }
   };
 
-  static atualizarLivro = async (req, res) => {
+  static atualizarLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
       await livros.findByIdAndUpdate(id, {
@@ -41,11 +45,11 @@ class LivrosControllers {
         message: "Dados atualizados com sucesso",
       });
     } catch (error) {
-      res.status(500).send("Erro", error);
+      next(error);
     }
   };
 
-  static deletarLivro = async (req, res) => {
+  static deletarLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
       await livros.findByIdAndDelete(id);
@@ -54,7 +58,7 @@ class LivrosControllers {
         message: "Livro excluido com sucesso",
       });
     } catch (error) {
-      res.status(500).send("Erro", error);
+      next(error);
     }
   };
 }
