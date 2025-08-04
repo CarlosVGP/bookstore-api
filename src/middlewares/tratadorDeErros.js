@@ -8,7 +8,7 @@ function tratadorDeErros(error, req, res, next) {
   if (error instanceof mongoose.Error.CastError) {
     new ErroRequisicao().enviarResposta(res);
   } else if (error instanceof mongoose.Error.ValidationError) {
-    new ErroValidacao().enviarResposta(res);
+    new ErroValidacao(error).enviarResposta(res);
   } else if (error instanceof ErroBase) {
     error.enviarResposta(res);
   } else {

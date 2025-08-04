@@ -6,7 +6,9 @@ class ErroBase extends Error {
   }
 
   enviarResposta(res) {
-    res.status(this.status).send({ message: this.message, stats: this.status });
+    res
+      .status(this.status)
+      .send({ message: this.message, status: this.status });
   }
 }
 

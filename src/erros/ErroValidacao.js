@@ -1,10 +1,10 @@
 import ErroRequisicao from "./ErroRequisicao.js";
 
 class ErroValidacao extends ErroRequisicao {
-  constructor(erro) {
-    const mensagemErro = Object.values(erro.errors)
+  constructor(error) {
+    const mensagemErro = Object.values(error.errors)
       .map((erro) => erro.message)
-      .join("; \n");
+      .join("; ");
     super(`Foram encontrados os sequintes erros: ${mensagemErro}`);
   }
 }

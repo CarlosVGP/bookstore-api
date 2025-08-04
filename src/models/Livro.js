@@ -7,7 +7,7 @@ const livroSchema = new mongoose.Schema(
       type: String,
       required: [
         true,
-        "É obrigatorio fornecer um titulo ao cadastrar um livro",
+        "É obrigatorio fornecer um titulo ao cadastrar um novo livro",
       ],
     },
     autor: {
@@ -15,14 +15,14 @@ const livroSchema = new mongoose.Schema(
       ref: "autores",
       required: [
         true,
-        "É obrigatorio fornecer o nome do(a) autor(a) ao cadastrar um livro",
+        "É obrigatorio fornecer o nome do(a) autor(a) ao cadastrar um novo livro",
       ],
     },
     editora: {
       type: String,
       required: [
         true,
-        "É obrigatorio fornecer o nome da editora ao cadastrar um livro",
+        "É obrigatorio fornecer o nome da editora ao cadastrar um novo livro",
       ],
       enum: {
         values: [
@@ -33,7 +33,7 @@ const livroSchema = new mongoose.Schema(
           "Editora Sextante",
         ],
         message:
-          "Editora fornecida '{VALUE}' não está entre as concideradas validas",
+          "Editora fornecida '{VALUE}' não está entre as consideradas validas",
       },
     },
     numeroPaginas: {

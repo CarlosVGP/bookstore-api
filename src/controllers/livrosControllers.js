@@ -1,4 +1,6 @@
 import { autores, livros } from "../models/index.js";
+// import NaoEncontrado from "../erros/NaoEncontrado.js"
+import mongoose from "mongoose";
 
 class LivrosControllers {
   static listarLivros = async (req, res, next) => {
@@ -29,6 +31,9 @@ class LivrosControllers {
           .limit(limite)
           .exec();
         res.status(200).send(livrosResultado);
+        if (!mongoose.Types.ObjectId.isValid(busca._id)) {
+          // new.NaoEncontrado().enviar;
+        }
       } else {
         res.status(200).send([]);
       }
@@ -42,7 +47,7 @@ class LivrosControllers {
       const novoLivro = new livros(req.body);
       const resultado = await novoLivro.save(novoLivro);
       res
-        .status(200)
+        .status(201)
         .json({ message: "Livro cadastrado com sucesso", livro: resultado });
     } catch (error) {
       next(error);
