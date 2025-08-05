@@ -1,16 +1,16 @@
 import { autores } from "../models/index.js";
 
 class AutoresControllers {
-  static listarAutores = async (req, res) => {
+  static listarAutores = async (req, res, next) => {
     try {
       const buscaAutores = await autores.find({});
       res.status(200).send(buscaAutores);
     } catch (error) {
-      console.log("Erro ao tentar listar os autores", error);
+      next(error);
     }
   };
 
-  static listarAutoresPorFiltro = async (req, res) => {
+  static listarAutoresPorFiltro = async (req, res, next) => {
     try {
       const busca = await processaBusca(req.query);
 
@@ -18,19 +18,23 @@ class AutoresControllers {
 
       res.status(200).send(autorResultado);
     } catch (error) {
-      res.status(200).json({ message: `Error, ${error}` });
+      next(error);
     }
   };
 
-  static cadastrarAutor = async (req, res) => {
-    const novoAutor = new autores(req.body);
-    const resultado = await novoAutor.save(novoAutor);
-    res
-      .status(200)
-      .json({ message: "Autor cadastrado com sucesso", autor: resultado });
+  static cadastrarAutor = async (req, res, next) => {
+    try {
+      const novoAutor = new autores(req.body);
+      const resultado = await novoAutor.save(novoAutor);
+      res
+        .status(200)
+        .json({ message: "Autor cadastrado com sucesso", autor: resultado });
+    } catch (error) {
+      next(error);
+    }
   };
 
-  static atualizarAutor = async (req, res) => {
+  static atualizarAutor = async (req, res, next) => {
     try {
       const id = req.params.id;
       await autores.findByIdAndUpdate(id, {
@@ -41,11 +45,11 @@ class AutoresControllers {
         message: "Dados atualizados com sucesso",
       });
     } catch (error) {
-      res.status(500).send("Erro", error);
+      next(error);
     }
   };
 
-  static deletarAutor = async (req, res) => {
+  static deletarAutor = async (req, res, next) => {
     try {
       const id = req.params.id;
       await autores.findByIdAndDelete(id);
@@ -54,7 +58,7 @@ class AutoresControllers {
         message: "Autor excluido com sucesso",
       });
     } catch (error) {
-      res.status(500).send("Erro", error);
+      next(error);
     }
   };
 }
