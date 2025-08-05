@@ -10,6 +10,17 @@ class AutoresControllers {
     }
   };
 
+  static listarAutoresPorId = async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const autor = await autores.findById(id);
+      res
+        .status(200)
+        .send({ message: "Autor encontrado com sucesso", autor: autor });
+    } catch (error) {
+      next(error);
+    }
+  };
   static listarAutoresPorFiltro = async (req, res, next) => {
     try {
       const busca = await processaBusca(req.query);
@@ -28,7 +39,10 @@ class AutoresControllers {
       const resultado = await novoAutor.save(novoAutor);
       res
         .status(200)
-        .json({ message: "Autor cadastrado com sucesso", autor: resultado });
+        .json({
+          message: "Autor cadastrado com sucesso",
+          autor: resultado.toJSON,
+        });
     } catch (error) {
       next(error);
     }

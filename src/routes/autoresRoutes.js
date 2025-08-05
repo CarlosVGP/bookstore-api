@@ -5,6 +5,7 @@ const router = express.Router();
 
 router
   .get("/autores", AutoresControllers.listarAutores)
+  .put("/autores/:id", AutoresControllers.listarAutoresPorId)
   .get("/autores/busca", AutoresControllers.listarAutoresPorFiltro)
   .post("/autores", AutoresControllers.cadastrarAutor)
   .put("/autores/:id", AutoresControllers.atualizarAutor)

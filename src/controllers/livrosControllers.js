@@ -1,6 +1,5 @@
 import { autores, livros } from "../models/index.js";
-// import NaoEncontrado from "../erros/NaoEncontrado.js"
-import mongoose from "mongoose";
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 
 class LivrosControllers {
   static listarLivros = async (req, res, next) => {
@@ -19,6 +18,22 @@ class LivrosControllers {
     }
   };
 
+  static listarLivrosPorId = async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const livro = await livros.findById(id);
+      if (livro !== null) {
+        res
+          .status(200)
+          .send({ message: "Livro encontrado com sucesso", livro: livro });
+      } else {
+        next(new NaoEncontrado("Tese"));
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
   static listarLivrosPorFiltro = async (req, res, next) => {
     try {
       const { limite = 5, pagina = 1 } = req.query;
@@ -31,9 +46,6 @@ class LivrosControllers {
           .limit(limite)
           .exec();
         res.status(200).send(livrosResultado);
-        if (!mongoose.Types.ObjectId.isValid(busca._id)) {
-          // new.NaoEncontrado().enviar;
-        }
       } else {
         res.status(200).send([]);
       }
@@ -46,9 +58,10 @@ class LivrosControllers {
     try {
       const novoLivro = new livros(req.body);
       const resultado = await novoLivro.save(novoLivro);
-      res
-        .status(201)
-        .json({ message: "Livro cadastrado com sucesso", livro: resultado });
+      res.status(201).json({
+        message: "Livro cadastrado com sucesso",
+        livro: resultado.toJSON(),
+      });
     } catch (error) {
       next(error);
     }
