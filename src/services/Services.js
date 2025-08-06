@@ -2,8 +2,8 @@ class Services {
   constructor(ModelName) {
     this.model = ModelName;
   }
-  async listarTodosRegistros(paginacaoParams = { limite: 5, pagina: 1 }) {
-    const { limite, pagina } = paginacaoParams;
+  async listarTodosRegistros(reqQuery) {
+    const { limite = 5, pagina = 1 } = reqQuery;
     const buscaRegistro = await this.model
       .find({})
       .skip((pagina - 1) * limite)
