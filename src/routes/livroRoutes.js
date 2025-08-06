@@ -1,14 +1,27 @@
 import express from "express";
 import LivrosControllers from "../controllers/livrosControllers.js";
 
+const livrosControllers = new LivrosControllers();
 const router = express.Router();
 
 router
-  .post("/livros", LivrosControllers.cadastrarLivro)
-  .get("/livros", LivrosControllers.listarLivros)
-  .get("/livros/:id", LivrosControllers.listarLivrosPorId)
-  .get("/livros/busca", LivrosControllers.listarLivrosPorFiltro)
-  .put("/livros/:id", LivrosControllers.atualizarLivro)
-  .delete("/livros/:id", LivrosControllers.deletarLivro);
+  .get("/livros", (req, res, next) =>
+    livrosControllers.buscaTodos(req, res, next)
+  )
+  .get("/livros/busca", (req, res, next) =>
+    livrosControllers.buscaPorFiltro(req, res, next)
+  )
+  .get("/livros/:id", (req, res, next) =>
+    livrosControllers.buscaPorId(req, res, next)
+  )
+  .post("/livros", (req, res, next) =>
+    livrosControllers.cadastrar(req, res, next)
+  )
+  .put("/livros/:id", (req, res, next) =>
+    livrosControllers.atualizar(req, res, next)
+  )
+  .delete("/livros/:id", (req, res, next) =>
+    livrosControllers.deletar(req, res, next)
+  );
 
 export default router;
