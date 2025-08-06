@@ -6,7 +6,7 @@ class LivrosControllers extends Controllers {
   constructor() {
     super(livrosServices);
   }
-  async buscaPorFiltro(req, res, next) {
+  buscaPorFiltro = async (req, res, next) => {
     try {
       const registrosEncontrados = await this.entidadeService.listarPorFiltro(
         req.query
@@ -15,6 +15,6 @@ class LivrosControllers extends Controllers {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 export default LivrosControllers;

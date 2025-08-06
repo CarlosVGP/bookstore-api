@@ -5,7 +5,7 @@ class Controllers {
     this.entidadeService = entidadeService;
   }
 
-  async buscaTodos(req, res, next) {
+  buscaTodos = async (req, res, next) => {
     try {
       const listaDeRegistro = await this.entidadeService.listarTodosRegistros(
         req.query
@@ -14,8 +14,8 @@ class Controllers {
     } catch (error) {
       next(error);
     }
-  }
-  async buscaPorId(req, res, next) {
+  };
+  buscaPorId = async (req, res, next) => {
     try {
       const registroEncontrado = await this.entidadeService.listarRegistroPorId(
         req.params.id
@@ -27,8 +27,8 @@ class Controllers {
     } catch (error) {
       next(error);
     }
-  }
-  async cadastrar(req, res, next) {
+  };
+  cadastrar = async (req, res, next) => {
     try {
       const novoRegistro = await this.entidadeService.adicionarRegistro(
         req.body
@@ -37,23 +37,23 @@ class Controllers {
     } catch (error) {
       next(error);
     }
-  }
-  async atualizar(req, res, next) {
+  };
+  atualizar = async (req, res, next) => {
     try {
       await this.entidadeService.atualizarRegistro(req.params.id, req.body);
       return res.status(200).json({ message: "Dados atualizados com sucesso" });
     } catch (error) {
       next(error);
     }
-  }
-  async deletar(req, res, next) {
+  };
+  deletar = async (req, res, next) => {
     try {
       await this.entidadeService.deletarRegistro(req.params.id);
       return res.status(200).json({ message: "Registro deletado com sucesso" });
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 
 export default Controllers;

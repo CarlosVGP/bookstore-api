@@ -7,7 +7,7 @@ class AutoresControllers extends Controllers {
     super(autoresServices);
   }
 
-  async buscaPorFiltro(req, res, next) {
+  buscaPorFiltro = async (req, res, next) => {
     try {
       const registrosEncontrados = await this.entidadeService.listarPorFiltro(
         req.query,
@@ -17,6 +17,6 @@ class AutoresControllers extends Controllers {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 export default AutoresControllers;

@@ -5,23 +5,11 @@ const autoresControllers = new AutoresControllers();
 const router = express.Router();
 
 router
-  .get("/autores", (req, res, next) =>
-    autoresControllers.buscaTodos(req, res, next)
-  )
-  .get("/autores/busca", (req, res, next) =>
-    autoresControllers.buscaPorFiltro(req, res, next)
-  )
-  .get("/autores/:id", (req, res, next) =>
-    autoresControllers.buscaPorId(req, res, next)
-  )
-  .post("/autores", (req, res, next) =>
-    autoresControllers.cadastrar(req, res, next)
-  )
-  .put("/autores/:id", (req, res, next) =>
-    autoresControllers.atualizar(req, res, next)
-  )
-  .delete("/autores/:id", (req, res, next) =>
-    autoresControllers.deletar(req, res, next)
-  );
+  .get("/autores", autoresControllers.buscaTodos)
+  .get("/autores/busca", autoresControllers.buscaPorFiltro)
+  .get("/autores/:id", autoresControllers.buscaPorId)
+  .post("/autores", autoresControllers.cadastrar)
+  .put("/autores/:id", autoresControllers.atualizar)
+  .delete("/autores/:id", autoresControllers.deletar);
 
 export default router;
